@@ -1,0 +1,64 @@
+.TH xouts 1 "" xouts\-VERSION
+
+.SH NAME
+xouts \- X outputs
+
+.SH SYNOPSIS
+.B xouts
+.RB [\- acdpsuvh ]
+
+.SH DESCRIPTION
+.B xouts
+is a simple tool to list available X outputs.
+
+.SH OPTIONS
+.TP
+.B \-a
+.RB "List " all
+available outputs.
+.RB ( default )
+
+.TP
+.B \-c
+.RB "List " connected
+outputs.
+
+.TP
+.B \-d
+.RB "List " disconnected
+outputs
+
+.TP
+.B \-p
+.RB "List " primary
+outputs. The output can be disconnected.
+
+.TP
+.B \-s
+.RB "List " secondary
+(not as primary marked) outputs.
+The output must be connected to be shown in the list.
+
+.TP
+.B \-u
+.RB "List outputs with " "unknown connection"
+status.
+
+.TP
+.B \-h
+Prints a short help to stderr, then exits successfully.
+
+.TP
+.B \-v
+Prints version information to stderr, then exits successfully.
+
+
+.SH ENVIRONMENT VARIABLES
+.IP DISPLAY
+Specifies the hardware display name, which determines the display and communications domain to be used.
+
+.SH LICENSE
+See the LICENSE file for the terms of redistribution.
+
+.SH SEE ALSO
+.BR xrandr (1)
