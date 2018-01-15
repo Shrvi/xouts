@@ -8,7 +8,7 @@ Prints a filterable list of available X outputs.
 Available filters: **all**, **connected**, **disconnected**, **unknown connection**, **primary**, **secondary**.
 
 For more informations  
-`  man xouts`
+`man xouts`
 
 
 ## Dependencies
@@ -20,10 +20,10 @@ Required libraries
 ## Installation
 
 Edit config.mk to your wishes.
-By default mol is installed into '/usr/local'.
+By default xouts is installed into '/usr/local'.
 The Makefile provides support for DESTDIR and PREFIX variables.
 
-Afterwards enter following command to build and install mol.
+Afterwards enter following command to build and install xouts.
 You may need root rights.  
-`  make clean install`
+`make clean install`
 
