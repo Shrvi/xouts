@@ -62,7 +62,7 @@ main(int argc, char *argv[])
 	} ARGEND;
 
 	if (argc > 0)
-		die("too many arguments\n");
+		usage(EXIT_FAILURE);
 
 	if (!connection_mask != !rank_mask)
 		match_both_states = true;
