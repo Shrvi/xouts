@@ -121,7 +121,7 @@ main(int argc, char *argv[])
 void
 usage(int status)
 {
-	fprintf(stderr, "usage: %s [-abcdpsuvh]\n", basename(argv0));
+	fprintf(stderr, "usage: %s [-abcdpsuhv]\n", basename(argv0));
 	exit(status);
 }
 
