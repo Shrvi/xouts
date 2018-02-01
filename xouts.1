@@ -5,44 +5,55 @@ xouts \- X outputs
 
 .SH SYNOPSIS
 .B xouts
-.RB [\- acdpsuvh ]
+.RB [\- acdpsuxvh ]
 
 .SH DESCRIPTION
 .B xouts
 is a simple tool to list available X outputs.
 
+.RB "Each output has exactly one " "connection " "and " "rank "state.
+
+.RS
+.BR connections " := connected | disconnected | unknown connection"
+.br
+.BR ranks "       := primary | secondary"
+.RE
+
 .SH OPTIONS
+
+By default \fBxouts\fR simply lists all outputs that match at least one specified state.
+To list only those, matching both states, take a alook at the \fB\-b\fR option.
+
+.RB "No explicit enabled " "connection " "state enables all by default. Same applies to " rank .
+
 .TP
 .B \-a
-.RB "List " all
-available outputs.
+.RB "List " "all " "available outputs. Same as " \-cdups .
 .RB ( default )
 
 .TP
+.B \-b
+Outputs have to match the \fBconnection\fR \fIand\fR \fBrank\fR state.
+
+.TP
 .B \-c
-.RB "List " connected
-outputs.
+.RB "List " connected " outputs.
 
 .TP
 .B \-d
-.RB "List " disconnected
-outputs
+.RB "List " "disconnected " outputs
 
 .TP
 .B \-p
-.RB "List " primary
-outputs. The output can be disconnected.
+.RB "List " "primary " outputs.
 
 .TP
 .B \-s
-.RB "List " secondary
-(not as primary marked) outputs.
-The output must be connected to be shown in the list.
+.RB "List " "secondary " "(not as primary marked) outputs."
 
 .TP
 .B \-u
-.RB "List outputs with " "unknown connection"
-status.
+.RB "List outputs with " "unknown connection " status.
 
 .TP
 .B \-h
@@ -56,6 +67,14 @@ Prints version information to stderr, then exits successfully.
 .SH ENVIRONMENT VARIABLES
 .IP DISPLAY
 Specifies the hardware display name, which determines the display and communications domain to be used.
+
+
+.SH EXAMPLES
+.EX
+.RB "$ " "xouts -cp     " " #=> Lists connected and primary outputs"
+.RB "$ " "xouts -cpb    " " #=> Lists primary outputs that are also connected (will be one at most)"
+.RB "$ " "xouts -cdsb   " " #=> Lists secondary outputs that are also either connected or disconnected"
+.EE
 
 .SH LICENSE
 See the LICENSE file for the terms of redistribution.

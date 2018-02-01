@@ -9,44 +9,48 @@
 
 #include "arg.h"
 
+enum states {
+	CONNECTED         = ( 1u << 0 ),
+	DISCONNECTED      = ( 1u << 1 ),
+	UNKNOWNCONNECTION = ( 1u << 2 ),
+	PRIMARY           = ( 1u << 3 ),
+	SECONDARY         = ( 1u << 4 ),
+};
+
 void usage(int status);
 void die(const char *errstr, ...);
 
 char *argv0;
 
-bool display_all = true;
-bool display_connected;
-bool display_disconnected;
-bool display_unknownconnection;
-bool display_primary;
-bool display_secondary;
+int connection_mask;
+int rank_mask;
+bool match_both_states;
 
 int
 main(int argc, char *argv[])
 {
 	ARGBEGIN {
 		case 'a':
-			display_all = true;
+			connection_mask = CONNECTED | DISCONNECTED | UNKNOWNCONNECTION;
+			rank_mask = PRIMARY | SECONDARY;
+			break;
+		case 'b':
+			match_both_states = true;
 			break;
 		case 'c':
-			display_connected = true;
-			display_all = false;
+			connection_mask |= CONNECTED;
 			break;
 		case 'd':
-			display_disconnected = true;
-			display_all = false;
+			connection_mask |= DISCONNECTED;
 			break;
 		case 'p':
-			display_primary = true;
-			display_all = false;
+			rank_mask |= PRIMARY;
 			break;
 		case 's':
-			display_secondary = true;
-			display_all = false;
+			rank_mask |= SECONDARY;
 			break;
 		case 'u':
-			display_unknownconnection = true;
-			display_all = false;
+			connection_mask |= UNKNOWNCONNECTION;
 			break;
 		case 'v':
 			fprintf(stderr, "%s " VERSION " (c) 2018 Jens Henniges\n", basename(argv0));
@@ -60,10 +64,19 @@ main(int argc, char *argv[])
 	if (argc > 0)
 		die("too many arguments\n");
 
+	if (!connection_mask != !rank_mask)
+		match_both_states = true;
+
+	if (!connection_mask)
+		connection_mask = CONNECTED | DISCONNECTED | UNKNOWNCONNECTION;
+
+	if (!rank_mask)
+		rank_mask = PRIMARY | SECONDARY;
+
 	Display *disp;
 	XRRScreenResources *scrn;
 	Window root;
-	RROutput prim;
+	RROutput rrprim;
 	XRROutputInfo *outp;
 
 	disp = XOpenDisplay(NULL);
@@ -71,21 +84,28 @@ main(int argc, char *argv[])
 		die("Can't open display\n");
 	root = DefaultRootWindow(disp);
 	scrn = XRRGetScreenResources(disp, root);
-	prim = XRRGetOutputPrimary(disp, root);
+	rrprim = XRRGetOutputPrimary(disp, root);
 
-	for (int i = 0; i < scrn->noutput; ++i)
+
+	int matching_states = 0;
+	for (int i = 0; i < scrn->noutput; ++i, matching_states = 0)
 	{
-		outp = XRRGetOutputInfo(disp, scrn, scrn->outputs[i]);
-		if ((display_all ||
-		    (display_connected         && outp->connection == RR_Connected) ||
-		    (display_disconnected      && outp->connection == RR_Disconnected) ||
-		    (display_unknownconnection && outp->connection == RR_UnknownConnection) ||
-		    (display_primary           && scrn->outputs[i] == prim) ||
-		    (display_secondary         && scrn->outputs[i] != prim && outp->connection == RR_Connected)
-		   ))
+		if ((rank_mask & PRIMARY   && scrn->outputs[i] == rrprim)
+		||  (rank_mask & SECONDARY && scrn->outputs[i] != rrprim))
 		{
-			printf("%s\n", outp->name);
+			++matching_states;
 		}
+
+		if (match_both_states && matching_states < 1)
+			continue;
+
+		outp = XRRGetOutputInfo(disp, scrn, scrn->outputs[i]);
+
+		if (connection_mask & (1u << outp->connection))
+			++matching_states;
+
+		if (matching_states > 1 || (!match_both_states && matching_states > 0))
+			printf("%s\n", outp->name);
 
 		XRRFreeOutputInfo(outp);
 	}
@@ -101,7 +121,7 @@ main(int argc, char *argv[])
 void
 usage(int status)
 {
-	fprintf(stderr, "usage: %s [-acdpsuvh]\n", basename(argv0));
+	fprintf(stderr, "usage: %s [-abcdpsuvh]\n", basename(argv0));
 	exit(status);
 }
 
