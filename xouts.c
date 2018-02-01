@@ -17,6 +17,7 @@ enum states {
 	SECONDARY         = ( 1u << 4 ),
 };
 
+void printname(XRROutputInfo *o);
 void usage(int status);
 void die(const char *errstr, ...);
 
@@ -78,6 +79,7 @@ main(int argc, char *argv[])
 	Window root;
 	RROutput rrprim;
 	XRROutputInfo *outp;
+	XRROutputInfo *xrrprim = NULL;
 
 	disp = XOpenDisplay(NULL);
 	if (!disp)
@@ -105,9 +107,22 @@ main(int argc, char *argv[])
 			++matching_states;
 
 		if (matching_states > 1 || (!match_both_states && matching_states > 0))
-			printf("%s\n", outp->name);
+		{
+			if (scrn->outputs[i] == rrprim)
+			{
+				xrrprim = outp;
+				continue;
+			}
+			printname(outp);
+		}
 
 		XRRFreeOutputInfo(outp);
+	}
+
+	if (xrrprim)
+	{
+		printname(xrrprim);
+		XRRFreeOutputInfo(xrrprim);
 	}
 
 	XRRFreeScreenResources(scrn);
@@ -116,6 +131,11 @@ main(int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
+void
+printname(XRROutputInfo *o)
+{
+	printf("%s\n", o->name);
+}
 
 
 void
