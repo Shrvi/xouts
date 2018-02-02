@@ -1,6 +1,6 @@
 # xouts - X outputs
 
-The intention of this program is, no longer having to _grep_, _cut_, _sed_, _awk_ _xrandr --query_.
+The intention of this program is, no longer having to `grep`, `cut`, `sed`, `awk` the result of `xrandr --query`.
 
 ## Description
 
