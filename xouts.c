@@ -54,7 +54,7 @@ main(int argc, char *argv[])
 			connection_mask |= UNKNOWNCONNECTION;
 			break;
 		case 'v':
-			fprintf(stderr, "%s " VERSION " (c) 2018 Jens Henniges\n", basename(argv0));
+			fprintf(stderr, VERSION "\n");
 			exit(EXIT_SUCCESS);
 		case 'h':
 			usage(EXIT_SUCCESS);
