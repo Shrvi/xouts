@@ -55,7 +55,7 @@ main(int argc, char *argv[])
 			break;
 		case 'v':
 			fprintf(stderr, VERSION "\n");
-			exit(EXIT_SUCCESS);
+			return EXIT_SUCCESS;
 		case 'h':
 			usage(EXIT_SUCCESS);
 		default:
