@@ -89,9 +89,10 @@ main(int argc, char *argv[])
 	rrprim = XRRGetOutputPrimary(disp, root);
 
 
-	int matching_states = 0;
-	for (int i = 0; i < scrn->noutput; ++i, matching_states = 0)
+	for (int i = 0; i < scrn->noutput; ++i)
 	{
+		int matching_states = 0;
+
 		if ((rank_mask & PRIMARY   && scrn->outputs[i] == rrprim)
 		||  (rank_mask & SECONDARY && scrn->outputs[i] != rrprim))
 		{
