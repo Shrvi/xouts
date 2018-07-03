@@ -32,10 +32,6 @@ main(int argc, char *argv[])
 {
 	ARGBEGIN {
 		case 'a':
-			connection_mask = CONNECTED | DISCONNECTED | UNKNOWNCONNECTION;
-			rank_mask = PRIMARY | SECONDARY;
-			break;
-		case 'b':
 			match_both_states = true;
 			break;
 		case 'c':
@@ -142,7 +138,7 @@ printname(XRROutputInfo *o)
 void
 usage(int status)
 {
-	fprintf(stderr, "usage: %s [-abcdpsuhv]\n", basename(argv0));
+	fprintf(stderr, "usage: %s [-acdpsuhv]\n", basename(argv0));
 	exit(status);
 }
 

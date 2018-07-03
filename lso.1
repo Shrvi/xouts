@@ -5,7 +5,7 @@ lso \- list X outputs
 
 .SH SYNOPSIS
 .B lso
-.RB [\- abcdpsuhv ]
+.RB [\- acdpsuhv ]
 
 .SH DESCRIPTION
 .B lso
@@ -24,18 +24,13 @@ There is at most one primary output, which will always be listed at last.
 .SH OPTIONS
 
 By default \fBlso\fR simply lists all outputs that match at least one specified state.
-To list only those, matching both states, take a alook at the \fB\-b\fR option.
+To list only those, matching both states, take a alook at the \fB\-a\fR option.
 
 .RB "No explicit enabled " "connection " "state enables all by default. Same applies to " rank .
 
 .TP
 .B \-a
-.RB "List " "all " "available outputs. Same as " \-cdups .
-.RB ( default )
-
-.TP
-.B \-b
-Outputs have to match the \fBconnection\fR \fIand\fR \fBrank\fR state.
+Outputs have to match the \fBconnection\fR \fIa\fRnd \fBrank\fR state.
 
 .TP
 .B \-c
@@ -73,9 +68,10 @@ Specifies the hardware display name, which determines the display and communicat
 
 .SH EXAMPLES
 .EX
+.RB "$ " "lso         " " #=> List all available outputs"
 .RB "$ " "lso -cp     " " #=> Lists connected and primary outputs"
-.RB "$ " "lso -cpb    " " #=> Lists primary outputs that are also connected (will be one at most)"
-.RB "$ " "lso -cdsb   " " #=> Lists secondary outputs that are also either connected or disconnected"
+.RB "$ " "lso -cap    " " #=> Lists primary outputs that are also connected (will be one at most)"
+.RB "$ " "lso -cdas   " " #=> Lists secondary outputs that are also either connected or disconnected"
 .EE
 
 .SH LICENSE
