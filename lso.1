@@ -11,7 +11,7 @@ lso \- list X outputs
 .B lso
 is a simple tool to list available X outputs.
 
-.RB "Each output has exactly one " "connection " "and " "rank "state.
+.RB "Each output has exactly one state of the group " "connection " "and " "rank " set.
 
 .RS
 .BR connections " := connected | disconnected | unknown connection"
@@ -19,14 +19,7 @@ is a simple tool to list available X outputs.
 .BR ranks "       := primary | secondary"
 .RE
 
-There is at most one primary output, which will always be listed at last.
-
 .SH OPTIONS
-
-By default \fBlso\fR simply lists all outputs that match at least one specified state.
-To list only those, matching both states, take a alook at the \fB\-a\fR option.
-
-.RB "No explicit enabled " "connection " "state enables all by default. Same applies to " rank .
 
 .TP
 .B \-a
@@ -38,11 +31,11 @@ Outputs have to match the \fBconnection\fR \fIa\fRnd \fBrank\fR state.
 
 .TP
 .B \-d
-.RB "List " "disconnected " outputs
+.RB "List " "disconnected " outputs.
 
 .TP
 .B \-p
-.RB "List " "primary " outputs.
+.RB "List " "primary " "outputs. Will always be printed at last."
 
 .TP
 .B \-s
@@ -69,9 +62,11 @@ Specifies the hardware display name, which determines the display and communicat
 .SH EXAMPLES
 .EX
 .RB "$ " "lso         " " #=> List all available outputs"
-.RB "$ " "lso -cp     " " #=> Lists connected and primary outputs"
-.RB "$ " "lso -cap    " " #=> Lists primary outputs that are also connected (will be one at most)"
-.RB "$ " "lso -cdas   " " #=> Lists secondary outputs that are also either connected or disconnected"
+.RB "$ " "lso -pc     " " #=> List primary and connected outputs"
+.RB "$ " "lso -pac    " " #=> List primary outputs that are also connected"
+.RB "$ " "lso -sacd   " " #=> List secondary outputs that are also either connected or disconnected"
+
+.BR "  lso -c " == " lso -caps " != " lso -cps"
 .EE
 
 .SH LICENSE

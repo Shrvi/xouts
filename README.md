@@ -7,7 +7,7 @@ The intention of this program is, no longer having to `grep`, `cut`, `sed`, `awk
 Prints a filterable list of available X outputs.
 Available filters: **all**, **connected**, **disconnected**, **unknown connection**, **primary**, **secondary**.
 
-For more informations  
+For more information  
 `man lso`
 
 
